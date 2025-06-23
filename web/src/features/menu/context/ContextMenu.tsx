@@ -17,32 +17,61 @@ const useStyles = createStyles((theme) => ({
   container: {
     position: 'absolute',
     top: '15%',
-    right: '25%',
-    width: 320,
-    height: 580,
+    right: '15%',
+    width: 330,
+    fontFamily: "'Cinzel', serif",
   },
   header: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
-    gap: 6,
+    marginBottom: 12,
+    gap: 8,
   },
   titleContainer: {
-    borderRadius: 4,
     flex: '1 85%',
-    backgroundColor: theme.colors.dark[6],
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    position: 'relative',
+    padding: '8px 12px',
+    '&:before, &:after': {
+      content: '""',
+      position: 'absolute',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '80%',
+      height: '1px',
+      backgroundColor: 'rgba(217, 182, 124, 0.4)',
+    },
+    '&:before': {
+      top: 2,
+    },
+    '&:after': {
+      bottom: 2,
+    },
   },
   titleText: {
-    color: theme.colors.dark[0],
-    padding: 6,
+    color: '#EBDDCB',
     textAlign: 'center',
+    fontWeight: 700,
+    fontSize: 18,
+    textTransform: 'uppercase',
   },
   buttonsContainer: {
     height: 560,
-    overflowY: 'scroll',
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '4px',
+    },
+    '&::-webkit-scrollbar-track': {
+      background: 'rgba(0, 0, 0, 0.2)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: '#8B0000',
+      borderRadius: '2px',
+    },
   },
   buttonsFlexWrapper: {
-    gap: 3,
+    gap: 0,
   },
 }));
 
@@ -60,18 +89,14 @@ const ContextMenu: React.FC = () => {
     fetchNui('closeContext');
   };
 
-  // Hides the context menu on ESC
   useEffect(() => {
     if (!visible) return;
-
     const keyHandler = (e: KeyboardEvent) => {
       if (['Escape'].includes(e.code)) closeContext();
     };
-
     window.addEventListener('keydown', keyHandler);
-
     return () => window.removeEventListener('keydown', keyHandler);
-  }, [visible]);
+  }, [visible, contextMenu.canClose]);
 
   useNuiEvent('hideContext', () => setVisible(false));
 

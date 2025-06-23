@@ -10,7 +10,19 @@ import MarkdownComponents from '../../config/MarkdownComponents';
 
 const useStyles = createStyles((theme) => ({
   contentStack: {
-    color: theme.colors.dark[2],
+    color: '#E8DED1',
+  },
+  confirmButton: {
+    backgroundColor: '#5a7d5a',
+    '&:hover': {
+      backgroundColor: theme.fn.lighten('#5a7d5a', 0.1),
+    },
+  },
+  cancelButton: {
+    backgroundColor: '#a63c3c',
+    '&:hover': {
+      backgroundColor: theme.fn.lighten('#a63c3c', 0.1),
+    },
   },
 }));
 
@@ -55,6 +67,10 @@ const AlertDialog: React.FC = () => {
         exitTransitionDuration={150}
         transition="fade"
         title={<ReactMarkdown components={MarkdownComponents}>{dialogData.header}</ReactMarkdown>}
+        styles={{
+          modal: { backgroundColor: 'rgba(34, 25, 20, 0.9)' },
+          title: { color: '#E8DED1' },
+        }}
       >
         <Stack className={classes.contentStack}>
           <ReactMarkdown
@@ -68,16 +84,11 @@ const AlertDialog: React.FC = () => {
           </ReactMarkdown>
           <Group position="right" spacing={10}>
             {dialogData.cancel && (
-              <Button uppercase variant="default" onClick={() => closeAlert('cancel')} mr={3}>
+              <Button uppercase onClick={() => closeAlert('cancel')} mr={3} className={classes.cancelButton}>
                 {dialogData.labels?.cancel || locale.ui.cancel}
               </Button>
             )}
-            <Button
-              uppercase
-              variant={dialogData.cancel ? 'light' : 'default'}
-              color={dialogData.cancel ? theme.primaryColor : undefined}
-              onClick={() => closeAlert('confirm')}
-            >
+            <Button uppercase onClick={() => closeAlert('confirm')} className={classes.confirmButton}>
               {dialogData.labels?.confirm || locale.ui.confirm}
             </Button>
           </Group>
